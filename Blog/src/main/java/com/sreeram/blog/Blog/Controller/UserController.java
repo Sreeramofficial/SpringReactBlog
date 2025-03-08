@@ -1,6 +1,7 @@
 package com.sreeram.blog.Blog.Controller;
 
 
+import com.sreeram.blog.Blog.Exception.UserNotFoundException;
 import com.sreeram.blog.Blog.Model.UserModel;
 import com.sreeram.blog.Blog.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,20 +11,46 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
-public class UserController     {
+public class UserController {
 
     @Autowired
     UserRepository userRepository;
 
 
     @PostMapping("/addUser")
-    public  void addUser(@RequestBody UserModel userModel){
+    public void addUser(@RequestBody UserModel userModel) {
         userRepository.save(userModel);
     }
 
     @GetMapping("/getUser")
-    public List<UserModel> getUser(){
+    public List<UserModel> getUser() {
         return userRepository.findAll();
+    }
+
+        @GetMapping("/getUserBYId/{id}")
+    public UserModel getUser(@PathVariable Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new
+                UserNotFoundException("not found"));
+
+    }
+
+    @PutMapping("/updateUser/{id}")
+    public void updateUser(@RequestBody UserModel userModel, @PathVariable  Long id) {
+        UserModel user =
+                userRepository.findById(id).orElseThrow(() -> new
+                        UserNotFoundException("not found"));
+        user.setEmail(userModel.getEmail());
+        user.setName(userModel.getName());
+        userRepository.save(user);
+    }
+
+    @DeleteMapping("/deleteUser/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        UserModel user =
+                userRepository.findById(id).orElseThrow(() -> new
+                        UserNotFoundException("not found"));
+
+        userRepository.deleteById(user.getId());
     }
 
 
