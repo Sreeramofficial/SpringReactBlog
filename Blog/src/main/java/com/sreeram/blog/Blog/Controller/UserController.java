@@ -5,6 +5,7 @@ import com.sreeram.blog.Blog.Exception.UserNotFoundException;
 import com.sreeram.blog.Blog.Model.UserModel;
 import com.sreeram.blog.Blog.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,12 @@ public class UserController {
 
     @PostMapping("/addUser")
     public void addUser(@RequestBody UserModel userModel) {
-        userRepository.save(userModel);
+        if (!ObjectUtils.isEmpty(userRepository.findByEmail(userModel.getEmail()))){
+            throw  new UserNotFoundException("user exist");
+        }else{
+            userRepository.save(userModel);
+        };
+
     }
 
     @GetMapping("/getUser")
@@ -27,7 +33,7 @@ public class UserController {
         return userRepository.findAll();
     }
 
-        @GetMapping("/getUserBYId/{id}")
+            @GetMapping("/getUserBYId/{id}")
     public UserModel getUser(@PathVariable Long id) {
         return userRepository.findById(id).orElseThrow(() -> new
                 UserNotFoundException("not found"));
