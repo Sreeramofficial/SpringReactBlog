@@ -1,20 +1,19 @@
 package com.sreeram.blog.Blog.Model;
 
+import jakarta.persistence.*;
+import lombok.*;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.List;
 
 @Entity
-@Data
 @Getter
 @Setter
+@Data
+@NoArgsConstructor // Lombok will generate a no-args constructor
+@AllArgsConstructor // Lombok will generate a constructor with all fields as parameters
+@ToString
+@Table(name = "blog_user")
 public class UserModel {
-
     public Long getId() {
         return id;
     }
@@ -22,12 +21,6 @@ public class UserModel {
     public void setId(Long id) {
         this.id = id;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long id;
-
-    public String name;
 
     public String getName() {
         return name;
@@ -53,10 +46,28 @@ public class UserModel {
         this.password = password;
     }
 
-    public String email;
+    public List<Posts> getPosts() {
+        return posts;
+    }
 
+    public void setPosts(List<Posts> posts) {
+        this.posts = posts;
+    }
 
-    public String password;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
+    private String name;
+    private String email;
+    private String password;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Posts> posts;
+
+    // Lombok generates the constructor, getters, setters, and toString for you, so no need to manually write them.
+
+    public UserModel getAndUpdateUser() {
+        return this;
+    }
 }
