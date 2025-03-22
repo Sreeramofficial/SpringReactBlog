@@ -70,7 +70,7 @@ public class UserModel {
     }
 
     private String password;
-    private int age;
+    private Integer age;
     private String gender;
 
 
