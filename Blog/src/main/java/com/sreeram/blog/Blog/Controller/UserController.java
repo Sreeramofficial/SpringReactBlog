@@ -1,35 +1,30 @@
 package com.sreeram.blog.Blog.Controller;
 
 
+import com.sreeram.blog.Blog.Exception.UnderEighteenNotAllowed;
 import com.sreeram.blog.Blog.Exception.UserNotFoundException;
-import com.sreeram.blog.Blog.Model.Posts;
 import com.sreeram.blog.Blog.Model.UserModel;
 import com.sreeram.blog.Blog.Repository.UserRepository;
+import com.sreeram.blog.Blog.Service.UserSevice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
 public class UserController {
 
     @Autowired
+    UserSevice userService;
+    @Autowired
     UserRepository userRepository;
-
 
     @PostMapping("/addUser")
     public void addUser(@RequestBody UserModel userModel) {
-        if (!ObjectUtils.isEmpty(userRepository.findByEmail(userModel.getEmail()))) {
-            throw new UserNotFoundException("user exist");
-        } else {
-            List<Posts> posts =
-                    userModel.getPosts();
-            posts.forEach(p -> p.setUser(userModel));
-          userRepository.save(userModel);
-        } ;
-
+        userService.isAgeGreaterThanEighteen(userModel);
     }
 
     @GetMapping("/getUser")
@@ -60,7 +55,6 @@ public class UserController {
                 userRepository.findById(id).orElseThrow(() -> new
                         UserNotFoundException("not found"));
 
-        userRepository.deleteById(user.getId());
     }
 
 

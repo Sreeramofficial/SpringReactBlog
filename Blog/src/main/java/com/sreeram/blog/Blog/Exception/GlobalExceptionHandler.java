@@ -12,9 +12,19 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> userNotFoundExceptionHandler(UserNotFoundException e) {
         // Create an ErrorDto with the custom message and return with 404 status
         ErrorDto errorDto =
-                new ErrorDto(404, "User not found",
+                new ErrorDto(320, "User not found",
                         "sreeram");
 
         return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(UnderEighteenNotAllowed.class)
+    public ResponseEntity<?> ageExceptionHandler(UnderEighteenNotAllowed e) {
+        // Create an ErrorDto with the custom message and return with 404 status
+        ErrorDto errorDto =
+                new ErrorDto(203, "Under 18 not allowed",
+                        "Kuttettan");
+
+        return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
+    }
+
 }

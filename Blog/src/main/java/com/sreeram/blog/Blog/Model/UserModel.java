@@ -14,6 +14,13 @@ import java.util.List;
 @ToString
 @Table(name = "blog_user")
 public class UserModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    private String name;
+    private String email;
+
     public Long getId() {
         return id;
     }
@@ -46,28 +53,25 @@ public class UserModel {
         this.password = password;
     }
 
-    public List<Posts> getPosts() {
-        return posts;
+    public int getAge() {
+        return age;
     }
 
-    public void setPosts(List<Posts> posts) {
-        this.posts = posts;
+    public void setAge(int age) {
+        this.age = age;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    public String getGender() {
+        return gender;
+    }
 
-    private String name;
-    private String email;
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     private String password;
+    private int age;
+    private String gender;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Posts> posts;
 
-    // Lombok generates the constructor, getters, setters, and toString for you, so no need to manually write them.
-
-    public UserModel getAndUpdateUser() {
-        return this;
-    }
 }
