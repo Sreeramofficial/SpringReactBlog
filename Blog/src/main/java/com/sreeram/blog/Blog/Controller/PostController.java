@@ -25,7 +25,7 @@ public class PostController {
         }
     }
 
-    @GetMapping("/getAllPost/")
+    @GetMapping("/getAllPost")
     public List<PostModel> showAllPublic(
             @RequestParam(name = "email", required = false) String email,
             @RequestParam(name = "isPublic", required = true) boolean isPublic
