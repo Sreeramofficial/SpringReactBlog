@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor // Lombok will generate a constructor with all fields as parameters
 @ToString
 @Table(name = "blog_user")
+
 public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface PostRepository  extends JpaRepository<PostModel,Long>, CrudRepository<PostModel,Long> {
 
-    Optional<PostModel> findByEmail(String  id);
+    Optional<PostModel> findByEmail(String  email);
 }
 

@@ -22,7 +22,14 @@ public class PostController {
         if(postService.isEmailForPostAlreadyExist(postModel))
         {
             postService.savePost(postModel);
-        };
+        }
+    }
+    @GetMapping ("/getAllPost")
+    public void showAllPublic(){
+//        if(postService.isEmailForPostAlreadyExistForString(email))
+//        {
+//            postService.getPost(email);
+//        }
     }
 
 }

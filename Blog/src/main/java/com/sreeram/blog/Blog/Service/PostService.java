@@ -22,9 +22,23 @@ public class PostService {
             return false;
         }
     }
+
     public void savePost(PostModel postModel){
         if(isEmailForPostAlreadyExist(postModel)){
             postRepository.save(postModel);
+        }
+    }
+    public boolean isEmailForPostAlreadyExistForString(String email){
+        if (!ObjectUtils.isEmpty(userRepository.findByEmail(email))){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public void getPost(String email){
+        if(isEmailForPostAlreadyExistForString(email)){
+            postRepository.findByEmail(email);
+            return;
         }
     }
 }
