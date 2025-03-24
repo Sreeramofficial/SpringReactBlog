@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 @Service
 public class PostService {
@@ -35,10 +36,27 @@ public class PostService {
             return false;
         }
     }
-    public void getPost(String email){
+    public List<PostModel> getPost(String email,boolean ispublic){
         if(isEmailForPostAlreadyExistForString(email)){
-            postRepository.findByEmail(email);
-            return;
+
+            PostModel model=
+                    postRepository.findByEmail(email).get();
+            if(ispublic==model.getIsPublic()){
+
+            }
         }
+        else {
+            List<PostModel> post = postRepository.findAll();
+            List<PostModel> publicPost = new ArrayList<>();
+            for (PostModel p : post) {
+                if (p.getIsPublic()) {
+                    publicPost.add(p);
+                }
+            }
+            return publicPost;
+        }
+        return null;
     }
+
+
 }

@@ -26,5 +26,15 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(IsEmailIDNull.class)
+    public ResponseEntity<?> ageExceptionHandler(IsEmailIDNull e) {
+        // Create an ErrorDto with the custom message and return with 404 status
+        ErrorDto errorDto =
+                new ErrorDto(203, "Not Found ",
+                        "Kuttettan");
+
+        return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
+    }
+
 
 }

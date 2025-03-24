@@ -1,5 +1,6 @@
 package com.sreeram.blog.Blog.Controller;
 
+import com.sreeram.blog.Blog.Exception.IsEmailIDNull;
 import com.sreeram.blog.Blog.Model.PostModel;
 import com.sreeram.blog.Blog.Repository.PostRepository;
 import com.sreeram.blog.Blog.Service.PostService;
@@ -24,12 +25,19 @@ public class PostController {
             postService.savePost(postModel);
         }
     }
-    @GetMapping ("/getAllPost")
-    public void showAllPublic(){
-//        if(postService.isEmailForPostAlreadyExistForString(email))
-//        {
-//            postService.getPost(email);
-//        }
+    @GetMapping ("/getAllPost/")
+    public List<PostModel> showAllPublic(
+    @RequestParam(name = "email",required = false) String email,
+    @RequestParam(name = "isPublic",required = true) boolean isPublic
+    ){
+
+       if(postService.isEmailForPostAlreadyExistForString(email))
+        {
+          return  postService.getPost(email,isPublic);
+        }
+       else{
+            throw new IsEmailIDNull("Email ID not Found");
+       }
     }
 
 }
