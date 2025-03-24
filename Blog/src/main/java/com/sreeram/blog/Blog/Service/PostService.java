@@ -36,18 +36,29 @@ public class PostService {
             return false;
         }
     }
-    public List<PostModel> getPost(String email,boolean ispublic){
-        if(isEmailForPostAlreadyExistForString(email)){
-
-            PostModel model=
-                    postRepository.findByEmail(email).get();
-            if(ispublic==model.getIsPublic()){
-
+    public List<PostModel> getPost(String email,boolean ispublic) {
+        List<PostModel> publicPost = new ArrayList<>();
+        if (isEmailForPostAlreadyExistForString(email)) {
+            List<PostModel> model =
+                    postRepository.findByEmail(email);
+            if (ispublic) {
+                for (PostModel p : model) {
+                    if (p.getIsPublic()) {
+                        publicPost.add(p);
+                    }
+                }
+                return publicPost;
             }
-        }
-        else {
+            else{
+                for (PostModel p : model) {
+                    if (!p.getIsPublic()) {
+                        publicPost.add(p);
+                    }
+                }
+                return publicPost;
+            }
+        } else {
             List<PostModel> post = postRepository.findAll();
-            List<PostModel> publicPost = new ArrayList<>();
             for (PostModel p : post) {
                 if (p.getIsPublic()) {
                     publicPost.add(p);
@@ -55,7 +66,6 @@ public class PostService {
             }
             return publicPost;
         }
-        return null;
     }
 
 

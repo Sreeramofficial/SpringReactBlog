@@ -19,25 +19,19 @@ public class PostController {
     PostRepository postRepository;
 
     @PostMapping("/addPost")
-    public void addPost(@RequestBody PostModel postModel){
-        if(postService.isEmailForPostAlreadyExist(postModel))
-        {
+    public void addPost(@RequestBody PostModel postModel) {
+        if (postService.isEmailForPostAlreadyExist(postModel)) {
             postService.savePost(postModel);
         }
     }
-    @GetMapping ("/getAllPost/")
-    public List<PostModel> showAllPublic(
-    @RequestParam(name = "email",required = false) String email,
-    @RequestParam(name = "isPublic",required = true) boolean isPublic
-    ){
 
-       if(postService.isEmailForPostAlreadyExistForString(email))
-        {
-          return  postService.getPost(email,isPublic);
-        }
-       else{
-            throw new IsEmailIDNull("Email ID not Found");
-       }
+    @GetMapping("/getAllPost/")
+    public List<PostModel> showAllPublic(
+            @RequestParam(name = "email", required = false) String email,
+            @RequestParam(name = "isPublic", required = true) boolean isPublic
+    ) {
+        return postService.getPost(email, isPublic);
+
     }
 
 }
